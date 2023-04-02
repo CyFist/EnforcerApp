@@ -1,29 +1,24 @@
-import * as React from 'react';
-import { Context } from '../utils/Context';
-import _ from 'lodash';
+import * as React from "react";
 
-import { useForm, Controller } from 'react-hook-form';
-import Paper from '@mui/material/Paper';
-import InputBase from '@mui/material/InputBase';
-import Divider from '@mui/material/Divider';
-import IconButton from '@mui/material/IconButton';
+import Paper from "@mui/material/Paper";
+import InputBase from "@mui/material/InputBase";
+import Divider from "@mui/material/Divider";
+import IconButton from "@mui/material/IconButton";
 
-import PersonRemoveAlt1OutlinedIcon from '@mui/icons-material/PersonRemoveAlt1Outlined';
-import PersonAddOutlinedIcon from '@mui/icons-material/PersonAddOutlined';
-import ClearIcon from '@mui/icons-material/Clear';
-import SearchIcon from '@mui/icons-material/Search';
+import PersonRemoveAlt1OutlinedIcon from "@mui/icons-material/PersonRemoveAlt1Outlined";
+import PersonAddOutlinedIcon from "@mui/icons-material/PersonAddOutlined";
+import ClearIcon from "@mui/icons-material/Clear";
+import SearchIcon from "@mui/icons-material/Search";
 
-import { useRecoilState, useRecoilValue, useSetRecoilState, useResetRecoilState } from 'recoil';
-import { queryAtom } from '../state/queryState';
+import { useRecoilState, useSetRecoilState, useResetRecoilState } from "recoil";
+import { queryAtom } from "../state/queryState";
+import { ModalAtom, ModalTitleAtom } from "../state/modalState";
 
 export default function SearchBar() {
   const [query, setQuery] = useRecoilState(queryAtom);
   const resetQuery = useResetRecoilState(queryAtom);
-  const { setOpenModal, setModalTitle } = React.useContext(Context);
-
-  const { control, handleSubmit, reset } = useForm({
-    reValidateMode: 'onBlur'
-  });
+  const setOpenModal = useSetRecoilState(ModalAtom);
+  const setModalTitle = useSetRecoilState(ModalTitleAtom);
 
   const handleOpen = (titletext) => {
     setModalTitle(titletext);
@@ -38,11 +33,11 @@ export default function SearchBar() {
         px: 1,
         py: 0.25,
         mb: 1.5,
-        display: 'flex',
-        alignItems: 'center',
-        width: 'auto',
+        display: "flex",
+        alignItems: "center",
+        width: "auto",
         borderRadius: 8,
-        bgcolor: 'background.paper'
+        bgcolor: "background.paper",
       }}
       elevation={0}
     >
@@ -63,13 +58,16 @@ export default function SearchBar() {
       >
         {!query ? <SearchIcon /> : <ClearIcon />}
       </IconButton>
-      <Divider sx={{ height: 28, m: 0.5, bgcolor: 'text.primary' }} orientation="vertical" />
+      <Divider
+        sx={{ height: 28, m: 0.5, bgcolor: "text.primary" }}
+        orientation="vertical"
+      />
       <IconButton
         disableRipple
         p={1}
         aria-label="addUser"
         onClick={() => {
-          handleOpen('Add');
+          handleOpen("Add");
         }}
       >
         <PersonAddOutlinedIcon />
@@ -79,7 +77,7 @@ export default function SearchBar() {
         p={1}
         aria-label="removeUser"
         onClick={() => {
-          handleOpen('Remove');
+          handleOpen("Remove");
         }}
       >
         <PersonRemoveAlt1OutlinedIcon />

@@ -24,7 +24,7 @@ const Ably = () => {
       const collection = ev.collection;
       const payload = ev.payload[0];
       const method = ev.method;
-
+      
       const uRecordsClone = _.cloneDeep(uRecords);
 
       switch (method) {

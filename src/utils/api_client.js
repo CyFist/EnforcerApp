@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 // CORS enabled apikey
 const apikey = process.env.REACT_APP_RESTDB_API_KEY;
@@ -7,10 +7,10 @@ const URL = process.env.REACT_APP_RESTDB_BASE_URL;
 const restdb = axios.create({
   baseURL: `${URL}/rest`,
   headers: {
-    'Content-Type': 'application/json',
-    'x-apikey': apikey,
-    'cache-control': 'no-cache'
-  }
+    "Content-Type": "application/json",
+    "x-apikey": apikey,
+    "cache-control": "no-cache",
+  },
 });
 // Eventsource endpoint
 //const realtimeURL = `${URL}/realtime?apikey=${apikey}`;
@@ -27,15 +27,44 @@ const restdbGet = async (endpoint) => {
   }
 };
 
+const restdbPost = async (endpoint, username) => {
+  try {
+    const body = {
+      User: username,
+      BF_Date: null,
+      Quiz_Date: null,
+      Valid: false,
+    };
+
+    let res = await restdb.post(endpoint, body);
+    if (res.status === 200) {
+      return "success";
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const restdbPut = async (endpoint, body) => {
   try {
     let res = await restdb.put(endpoint, body);
     if (res.status === 200) {
-      return 'success';
+      return "success";
     }
   } catch (error) {
     return console.log(error);
   }
 };
 
-export { restdb, restdbGet, restdbPut };
+const restdbDelete = async (endpoint) => {
+  try {
+    let res = await restdb.delete(endpoint);
+    if (res.status === 200) {
+      return "success";
+    }
+  } catch (error) {
+    return console.log(error);
+  }
+};
+
+export { restdb, restdbGet, restdbPost, restdbPut, restdbDelete };

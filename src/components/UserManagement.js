@@ -11,24 +11,25 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { RecordsAtom } from "../state/recordsState";
 import { ModalAtom, ModalTitleAtom } from "../state/modalState";
 
+import { restdbPost, restdbDelete } from "../utils/api_client";
+
 const Addform = (props) => {
   return (
     <TextField
       sx={{
         my: 2,
-
         "& label.Mui-focused": {
-          color: "primary.main",
+          color: "primary.dark",
         },
         "& label.Mui-error": {
-          color: "primary.main",
+          color: "error.main",
         },
         "& .MuiOutlinedInput-root": {
           "&:hover fieldset": {
-            borderColor: "primary.main",
+            borderColor: "primary.light",
           },
           "&.Mui-focused fieldset": {
-            borderColor: "primary.main",
+            borderColor: "primary.light",
           },
           "&.Mui-error fieldset": {
             borderColor: "error.light",
@@ -170,7 +171,20 @@ const UserManagement = () => {
           fullWidth
           variant="contained"
           onClick={() => {
-            //UpdateRestDB(textfieldref.current.value, modalTitle); //TODO add updateDB
+            //TODO refine this
+            const UserData = _.filter(userRecords, [
+              "User",
+              textfieldref.current.value.toUpperCase(),
+            ]);
+
+            modalTitle === "Remove"
+              ? restdbDelete(`/records/${UserData[0]._id}`)
+              : restdbPost(
+                  "/records",
+                  textfieldref.current.value.toUpperCase()
+                );
+            setOpenModal(false);
+            setValue("");
           }}
           disabled={modalTitle === "Remove" ? RembtnDisabled : AddbtnDisabled}
         >

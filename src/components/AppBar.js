@@ -1,33 +1,33 @@
-import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
-import Drawer from '@mui/material/Drawer';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
+import * as React from "react";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Drawer from "@mui/material/Drawer";
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
-import AppsIcon from '@mui/icons-material/Apps';
-import FlightLandOutlinedIcon from '@mui/icons-material/FlightLandOutlined';
-import QuizOutlinedIcon from '@mui/icons-material/QuizOutlined';
-import MenuOpenIcon from '@mui/icons-material/MenuOpen';
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import AppsIcon from "@mui/icons-material/Apps";
+import FlightLandOutlinedIcon from "@mui/icons-material/FlightLandOutlined";
+import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
+import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 
-import ModeToggleButton from './ModeToggleButton.tsx';
+import ModeToggleButton from "./ModeToggleButton.tsx";
 
-import { Link } from '../utils/helperfunc';
-import { useLocation } from 'react-router-dom';
+import { Link } from "../utils/helperfunc";
+import { useLocation } from "react-router-dom";
 
 const pages = [
-  { page: 'Home', link: '/', icon: <HomeOutlinedIcon /> },
-  { page: 'Overview', link: '/Overview', icon: <AppsIcon /> },
-  { page: 'Boldface', link: '/Boldface', icon: <FlightLandOutlinedIcon /> },
-  { page: 'Quiz', link: '/Quiz', icon: <QuizOutlinedIcon /> }
+  { page: "Home", link: "/", icon: <HomeOutlinedIcon /> },
+  { page: "Overview", link: "/Overview", icon: <AppsIcon /> },
+  { page: "Boldface", link: "/Boldface", icon: <FlightLandOutlinedIcon /> },
+  { page: "Quiz", link: "/Quiz", icon: <QuizOutlinedIcon /> },
 ];
 
 export default function TopBar() {
@@ -40,21 +40,31 @@ export default function TopBar() {
 
   const DrawItems = () => {
     return (
-      <Box sx={{ width: 320 }} role="presentation">
-        <Box sx={{ height: 'calc(100vh - 80px)' }}>
+      <Box
+        width={300}
+        height={1}
+        display="flex"
+        flexWrap="wrap"
+        alignContent="space-between"
+        role="presentation"
+      >
+        <Box width={1}>
           <IconButton
             sx={{
-              color: 'inherit',
-              mt: 2,
-              ml: 2,
-              '&:hover': { backgroundColor: 'action.hover', transform: 'scale(1.1)' }
+              color: "inherit",
+              mt: 1,
+              ml: 1,
+              "&:hover": {
+                backgroundColor: "action.hover",
+                transform: "scale(1.1)",
+              },
             }}
             onClick={toggleDrawer}
             disableRipple
           >
             <MenuOpenIcon />
           </IconButton>
-          <List sx={{ px: 1, pt: 0 }}>
+          <List sx={{ px: 0, pt: 0 }}>
             {pages.map((obj, index) => (
               <ListItem key={obj.page} disablePadding>
                 <ListItemButton
@@ -62,14 +72,16 @@ export default function TopBar() {
                   selected={obj.link === pathname}
                   onClick={toggleDrawer}
                   sx={{
-                    '&.Mui-selected': {
-                      '&:hover': { backgroundColor: 'primary.dark' },
-                      backgroundColor: 'primary.main'
+                    "&.Mui-selected": {
+                      "&:hover": { backgroundColor: "primary.dark" },
+                      backgroundColor: "primary.main",
                     },
-                    '&:hover': { backgroundColor: 'action.hover' }
+                    "&:hover": { backgroundColor: "action.hover" },
                   }}
                 >
-                  <ListItemIcon sx={{ color: 'inherit' }}>{obj.icon}</ListItemIcon>
+                  <ListItemIcon sx={{ color: "inherit" }}>
+                    {obj.icon}
+                  </ListItemIcon>
                   <ListItemText primary={obj.page} />
                 </ListItemButton>
               </ListItem>
@@ -80,9 +92,8 @@ export default function TopBar() {
         <Box
           alignItems="center"
           justifyContent="center"
-          position="absolute"
           display="flex"
-          width={320}
+          width={1}
           height={80}
         >
           <ModeToggleButton />
@@ -93,22 +104,21 @@ export default function TopBar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ bgcolor: 'background.default' }}>
+      <AppBar position="static" sx={{ bgcolor: "background.default" }}>
         <Toolbar>
           <IconButton
             size="large"
             edge="start"
             aria-label="menu"
             sx={{
-              mr: 2,
-              '&:hover': { transform: 'scale(1.1)' }
+              "&:hover": { transform: "scale(1.1)" },
             }}
             onClick={toggleDrawer}
             disableRipple
           >
             {isOpen ? <MenuOpenIcon /> : <MenuIcon />}
           </IconButton>
-          <Drawer anchor={'left'} open={isOpen} onClose={toggleDrawer}>
+          <Drawer anchor={"left"} open={isOpen} onClose={toggleDrawer}>
             <DrawItems />
           </Drawer>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

@@ -34,7 +34,7 @@ const Quiz = () => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
-    if (SampleNum === 14) {
+    if (SampleNum === 0) {
       //TODO show all the loading page
       submit(selectedRec, navigate, resetSampleQn);
     }

@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // CORS enabled apikey
-const apikey = "63eca0d0478852088da682d1"; //process.env.REACT_APP_RESTDB_API_KEY;
-const URL = "https://enforcer-88e7.restdb.io"; //process.env.REACT_APP_RESTDB_BASE_URL;
+const apikey = process.env.REACT_APP_RESTDB_API_KEY;
+const URL = process.env.REACT_APP_RESTDB_BASE_URL;
 
 const restdb = axios.create({
   baseURL: `${URL}/rest`,

@@ -17,9 +17,9 @@ const TxtField = ({ id, defaultValue, txtRefobj, onInput }) => {
         sx={{
           "& .MuiOutlinedInput-root": {
             "& fieldset": {
-              borderColor: "text.secondary",
-            },
-          },
+              borderColor: "text.secondary"
+            }
+          }
         }}
         fullWidth={true}
         id={id}
@@ -29,6 +29,7 @@ const TxtField = ({ id, defaultValue, txtRefobj, onInput }) => {
         autoComplete="off"
         inputProps={{
           style: { fontSize: "0.75rem", textTransform: "uppercase" },
+          enterkeyhint: "next"
         }}
         inputRef={(el) => (txtRefobj.current[indx] = el)}
         onInput={onInput}

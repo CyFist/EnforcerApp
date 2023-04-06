@@ -12,18 +12,18 @@ import SearchIcon from "@mui/icons-material/Search";
 
 import { useRecoilState, useSetRecoilState, useResetRecoilState } from "recoil";
 import { queryAtom } from "../state/queryState";
-import { ModalAtom, ModalTitleAtom } from "../state/modalState";
+import { ModalAtom, ModalTitleAtom, ModalUserAtom } from "../state/modalState";
 
 export default function SearchBar() {
   const [query, setQuery] = useRecoilState(queryAtom);
   const resetQuery = useResetRecoilState(queryAtom);
   const setOpenModal = useSetRecoilState(ModalAtom);
   const setModalTitle = useSetRecoilState(ModalTitleAtom);
-
+  const setValue = useResetRecoilState(ModalUserAtom);
   const handleOpen = (titletext) => {
     setModalTitle(titletext);
     setOpenModal(true);
-    //setValue('');
+    setValue();
   };
 
   return (
@@ -46,6 +46,9 @@ export default function SearchBar() {
         autoComplete="off"
         sx={{ ml: 1, flex: 1 }}
         placeholder="Search user"
+        inputProps={{
+          enterKeyHint: "search",
+        }}
         value={query}
         onChange={(e) => setQuery(e.target.value.toUpperCase())}
       />

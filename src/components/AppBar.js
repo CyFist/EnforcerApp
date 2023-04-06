@@ -20,6 +20,9 @@ import MenuOpenIcon from "@mui/icons-material/MenuOpen";
 
 import ModeToggleButton from "./ModeToggleButton.tsx";
 
+import PropTypes from "prop-types";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
+
 import { Link } from "../utils/helperfunc";
 import { useLocation } from "react-router-dom";
 
@@ -30,7 +33,24 @@ const pages = [
   { page: "Quiz", link: "/Quiz", icon: <QuizOutlinedIcon /> },
 ];
 
-export default function TopBar() {
+function ElevationScroll(props) {
+  const { children } = props;
+
+  const trigger = useScrollTrigger({
+    disableHysteresis: true,
+    threshold: 0,
+  });
+
+  return React.cloneElement(children, {
+    elevation: trigger ? 4 : 0,
+  });
+}
+
+ElevationScroll.propTypes = {
+  children: PropTypes.element.isRequired,
+};
+
+export default function TopBar(props) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { pathname } = useLocation();
 
@@ -43,6 +63,7 @@ export default function TopBar() {
       <Box
         width={300}
         height={1}
+        px={1}
         display="flex"
         flexWrap="wrap"
         alignContent="space-between"
@@ -71,6 +92,8 @@ export default function TopBar() {
                   component={Link(obj.link)}
                   selected={obj.link === pathname}
                   onClick={toggleDrawer}
+                  disableRipple
+                  disableTouchRipple
                   sx={{
                     "&.Mui-selected": {
                       "&:hover": { backgroundColor: "primary.dark" },
@@ -103,8 +126,8 @@ export default function TopBar() {
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ bgcolor: "background.default" }}>
+    <ElevationScroll {...props}>
+      <AppBar position="sticky" sx={{ bgcolor: "background.default" }}>
         <Toolbar>
           <IconButton
             size="large"
@@ -126,6 +149,6 @@ export default function TopBar() {
           </Typography>
         </Toolbar>
       </AppBar>
-    </Box>
+    </ElevationScroll>
   );
 }

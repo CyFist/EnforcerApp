@@ -1,8 +1,8 @@
 import axios from "axios";
 
 // CORS enabled apikey
-const apikey = process.env.REACT_APP_RESTDB_API_KEY;
-const URL = process.env.REACT_APP_RESTDB_BASE_URL;
+const apikey = "63eca0d0478852088da682d1"; //process.env.REACT_APP_RESTDB_API_KEY;
+const URL = "https://enforcer-88e7.restdb.io"; //process.env.REACT_APP_RESTDB_BASE_URL;
 
 const restdb = axios.create({
   baseURL: `${URL}/rest`,
@@ -27,14 +27,18 @@ const restdbGet = async (endpoint) => {
   }
 };
 
-const restdbPost = async (endpoint, username) => {
+const restdbPost = async (endpoint, usernames) => {
   try {
-    const body = {
-      User: username,
-      BF_Date: null,
-      Quiz_Date: null,
-      Valid: false,
-    };
+    const body = usernames.map((username) => {
+      const userbody = {
+        User: username,
+        BF_Date: null,
+        Quiz_Date: null,
+        Valid: false,
+      };
+
+      return userbody;
+    });
 
     let res = await restdb.post(endpoint, body);
     if (res.status === 200) {
@@ -56,11 +60,12 @@ const restdbPut = async (endpoint, body) => {
   }
 };
 
-const restdbDelete = async (endpoint) => {
+const restdbDelete = async (endpoint, arr) => {
+  const body = { data: arr };
   try {
-    let res = await restdb.delete(endpoint);
+    let res = await restdb.delete(endpoint, body);
     if (res.status === 200) {
-      return "success";
+      return console.log(res);
     }
   } catch (error) {
     return console.log(error);

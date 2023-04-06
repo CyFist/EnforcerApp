@@ -1,35 +1,38 @@
-import * as React from 'react';
-import AppThemeProvider from './theme/ThemeProvider.tsx';
-import CssBaseline from '@mui/material/CssBaseline';
-import AppBar from './components/AppBar';
-import { useEffect } from 'react';
+import * as React from "react";
+import AppThemeProvider from "./theme/ThemeProvider.tsx";
+import CssBaseline from "@mui/material/CssBaseline";
+import AppBar from "./components/AppBar";
+import { useEffect } from "react";
 
-import { restdbGet } from './utils/api_client';
-import { Routes, Route } from 'react-router-dom';
+import { restdbGet } from "./utils/api_client";
+import { Routes, Route } from "react-router-dom";
 //Pages
-import Home from './Pages/Home';
-import Overview from './Pages/Overview';
-import Boldface from './Pages/Boldface';
-import Quiz from './Pages/Quiz';
-import Ably from './utils/ablyWebSocket';
+import Home from "./Pages/Home";
+import Overview from "./Pages/Overview";
+import Boldface from "./Pages/Boldface";
+import Quiz from "./Pages/Quiz";
+import Ably from "./utils/ablyWebSocket";
 
 //recoil
-import { useSetRecoilState } from 'recoil';
-import { QnBnkAtom } from './state/quizState';
-import { RecordsAtom } from './state/recordsState';
-import { BoldfaceAtom } from './state/bfState';
+import { useSetRecoilState } from "recoil";
+import { QnBnkAtom } from "./state/quizState";
+import { RecordsAtom } from "./state/recordsState";
+import { BoldfaceAtom } from "./state/bfState";
 
-import boldfaces from './utils/bf.json';
+import boldfaces from "./utils/bf.json";
 
-const App = () => {
+const App = (props) => {
   const setRS = useSetRecoilState(RecordsAtom);
   const setQnBnk = useSetRecoilState(QnBnkAtom);
   const setBF = useSetRecoilState(BoldfaceAtom);
 
   useEffect(() => {
     // GET request using axios inside useEffect React hook
-    getData('records', '/records?q={}&h={"$orderby": {"Valid": -1, "User": 1 }}');
-    getData('QnBank', '/quiz');
+    getData(
+      "records",
+      '/records?q={}&h={"$orderby": {"Valid": -1, "User": 1 }}'
+    );
+    getData("QnBank", "/quiz");
     setBF(boldfaces);
   }, []);
 
@@ -37,10 +40,10 @@ const App = () => {
     const data = await restdbGet(query);
     //console.log(data);
     switch (hdr) {
-      case 'records':
+      case "records":
         setRS(data);
         break;
-      case 'QnBank':
+      case "QnBank":
         setQnBnk(data);
         break;
       default:

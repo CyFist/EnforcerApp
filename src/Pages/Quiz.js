@@ -3,6 +3,7 @@ import { restdbPut } from "../utils/api_client";
 import { useNavigate } from "react-router-dom";
 import Stepper from "../components/Stepper";
 import { OptionsGroup } from "../components/QuizCard";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import _ from "lodash";
@@ -42,22 +43,23 @@ const Quiz = () => {
 
   return (
     <Container>
-      <Stepper Total={TotalSample} leftover={RemainingSample} />
-      <Typography variant="h5" my={3}>
-        {Qns}
-      </Typography>
-      <OptionsGroup />
-      <Button
-        sx={{ mt: 3 }}
-        fullWidth
-        disableRipple
-        disabled={selected.BtnState}
-        size="small"
-        variant="contained"
-        onClick={() => handleOnSubmit(RemainingSample)}
-      >
-        Submit
-      </Button>
+      <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Stepper Total={TotalSample} leftover={RemainingSample} />
+        <Typography variant="h5" my={3}>
+          {Qns}
+        </Typography>
+        <OptionsGroup />
+        <Button
+          sx={{ mt: 3, alignSelf: "center" }}
+          disableRipple
+          disabled={selected.BtnState}
+          size="small"
+          variant="contained"
+          onClick={() => handleOnSubmit(RemainingSample)}
+        >
+          Submit
+        </Button>
+      </Box>
     </Container>
   );
 };

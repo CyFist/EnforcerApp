@@ -11,6 +11,7 @@ import Home from "./Pages/Home";
 import Overview from "./Pages/Overview";
 import Boldface from "./Pages/Boldface";
 import Quiz from "./Pages/Quiz";
+import Settings from "./Pages/Settings";
 import Ably from "./utils/ablyWebSocket";
 
 //recoil
@@ -34,7 +35,7 @@ const App = (props) => {
     );
     getData("QnBank", "/quiz");
     setBF(boldfaces);
-  }, []);
+  });
 
   const getData = async (hdr, query) => {
     const data = await restdbGet(query);
@@ -61,6 +62,7 @@ const App = (props) => {
           <Route path="Overview" element={<Overview />} />
           <Route path="Boldface" element={<Boldface />} />
           <Route path="Quiz" element={<Quiz />} />
+          <Route path="Settings" element={<Settings />} />
         </Routes>
       </React.Suspense>
     </AppThemeProvider>

@@ -1,7 +1,11 @@
-import { atom, atomFamily, selector, selectorFamily } from 'recoil';
-import _ from 'lodash';
+import { atom } from "recoil";
 
 export const queryAtom = atom({
-  key: 'queryAtom',
-  default: ''
+  key: "queryAtom",
+  default: [],
+});
+
+export const searchBarAtom = atom({
+  key: "searchBarAtom",
+  default: [],
 });

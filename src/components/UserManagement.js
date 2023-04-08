@@ -1,48 +1,41 @@
 import * as React from "react";
 import _ from "lodash";
-import Modal from "@mui/material/Modal";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
+
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import useMediaQuery from "@mui/material/useMediaQuery";
+
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
 import Autocomplete from "@mui/material/Autocomplete";
 
 import { useRecoilValue, useRecoilState } from "recoil";
-import { RecordsAtom } from "../state/recordsState";
+import { RecordsAtom, SortedRecordSelector } from "../state/recordsState";
 import { ModalAtom, ModalTitleAtom, ModalUserAtom } from "../state/modalState";
 
 import { restdbPost, restdbDelete } from "../utils/api_client";
 
-const style = {
-  position: "absolute",
-  display: "flex",
-  flexDirection: "column",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 0.9,
-  borderRadius: 4,
-  bgcolor: "background.paper",
-  boxShadow: 24,
-  p: 2,
-};
-
 const TxtField = (props) => {
-  const userRecords = useRecoilValue(RecordsAtom);
+  const userRecords = useRecoilValue(SortedRecordSelector);
   const value = useRecoilValue(ModalUserAtom);
   const modalTitle = useRecoilValue(ModalTitleAtom);
+
   return (
     <Autocomplete
       sx={{ my: 2 }}
       multiple
       id="tags-filled"
       options={userRecords.map((option) => option.User)}
-      forcePopupIcon={false}
+      noOptionsText="USER NOT IN RECORDS"
       {...props}
       renderInput={(params) => (
         <TextField
           {...params}
+          autoFocus
           inputProps={{
             ...params.inputProps,
             style: { textTransform: "uppercase" },
@@ -59,6 +52,7 @@ const UserManagement = () => {
   const [openModal, setOpenModal] = useRecoilState(ModalAtom);
   const modalTitle = useRecoilValue(ModalTitleAtom);
   const [value, setValue] = useRecoilState(ModalUserAtom);
+  const fullScreen = useMediaQuery((theme) => theme.breakpoints.down("xs"));
 
   const [btnDisabled, setbtnDisabled] = React.useState(true);
 
@@ -69,6 +63,7 @@ const UserManagement = () => {
     const filterBasedonValue = _.compact(
       _.chain(userRecords).keyBy("User").at(CapValue).value()
     );
+
     const finalValue = _.isEmpty(filterBasedonValue)
       ? CapValue
       : _.dropRight(CapValue);
@@ -90,17 +85,24 @@ const UserManagement = () => {
   };
 
   return (
-    <Modal
+    <Dialog
+      sx={{ "& .MuiPaper-root": { borderRadius: 8 } }}
+      fullScreen={fullScreen}
       open={openModal}
       onClose={() => {
         setOpenModal(false);
         setValue([]);
       }}
     >
-      <Box sx={style}>
-        <Typography id="modal-modal-title" variant="h6" component="h2">
-          {modalTitle} User
-        </Typography>
+      <DialogTitle sx={{ py: 3, pt: 3, pb: 2 }} id="dialog-title" variant="h6">
+        {modalTitle} User
+      </DialogTitle>
+      <DialogContent sx={{ py: 3, pb: 3 }}>
+        <DialogContentText>
+          {modalTitle === "Remove"
+            ? "Type to filter for easy selection. Select user from dropdown to add to remove list. Multiple users may be selected."
+            : "Type user and press enter. Multiple users may be added. "}
+        </DialogContentText>
         {modalTitle === "Remove" ? (
           <TxtField onChange={RemoveonChange} filterSelectedOptions />
         ) : (
@@ -111,8 +113,15 @@ const UserManagement = () => {
             open={false}
           />
         )}
+      </DialogContent>
+      <DialogActions sx={{ pr: 3, pb: 3, pt: 0 }}>
         <Button
-          sx={{ alignSelf: "center" }}
+          sx={{ color: "primary.main" }}
+          onClick={() => setOpenModal(false)}
+        >
+          Cancel
+        </Button>
+        <Button
           variant="contained"
           onClick={() => {
             modalTitle === "Remove"
@@ -130,8 +139,8 @@ const UserManagement = () => {
         >
           Confirm
         </Button>
-      </Box>
-    </Modal>
+      </DialogActions>
+    </Dialog>
   );
 };
 

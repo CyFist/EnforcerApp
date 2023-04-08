@@ -185,11 +185,27 @@ const UsersGrid = () => {
   const uRecords = useRecoilValue(RecordsAtom);
   const query = useRecoilValue(queryAtom);
 
-  const UserItems = _.filter(uRecords, function (uRecord) {
-    return _.startsWith(uRecord.User, query);
-  }).map((objRecord) => {
-    return <UserItem key={`${objRecord.User}Item`} user={objRecord.User} />;
-  });
+  const UserItems = _.chain(uRecords)
+    .filter((uRecord) => {
+      if (!_.isEmpty(query)) {
+        const x = !_.isEmpty(
+          _.compact(
+            query.map((value) => {
+              if (_.startsWith(uRecord.User, value)) {
+                return true;
+              }
+              return false;
+            })
+          )
+        );
+        return x;
+      }
+      return true;
+    })
+    .value()
+    .map((objRecord) => {
+      return <UserItem key={`${objRecord.User}Item`} user={objRecord.User} />;
+    });
 
   return (
     <Grid

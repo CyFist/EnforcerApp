@@ -17,6 +17,7 @@ import AppsIcon from "@mui/icons-material/Apps";
 import FlightLandOutlinedIcon from "@mui/icons-material/FlightLandOutlined";
 import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
 import MenuOpenIcon from "@mui/icons-material/MenuOpen";
+import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 
 import ModeToggleButton from "./ModeToggleButton.tsx";
 
@@ -31,6 +32,11 @@ const pages = [
   { page: "Overview", link: "/Overview", icon: <AppsIcon /> },
   { page: "Boldface", link: "/Boldface", icon: <FlightLandOutlinedIcon /> },
   { page: "Quiz", link: "/Quiz", icon: <QuizOutlinedIcon /> },
+  {
+    page: "Settings (in development)",
+    link: "/Settings",
+    icon: <SettingsOutlinedIcon />,
+  },
 ];
 
 function ElevationScroll(props) {
@@ -50,7 +56,7 @@ ElevationScroll.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-export default function TopBar(props) {
+export default function CusomAppBar(props) {
   const [isOpen, setIsOpen] = React.useState(false);
   const { pathname } = useLocation();
 
@@ -127,7 +133,11 @@ export default function TopBar(props) {
 
   return (
     <ElevationScroll {...props}>
-      <AppBar position="sticky" sx={{ bgcolor: "background.default" }}>
+      <AppBar
+        position="sticky"
+        color="transparent"
+        sx={{ bgcolor: "background.appbar", backdropFilter: "blur(8px)" }}
+      >
         <Toolbar>
           <IconButton
             size="large"
@@ -141,7 +151,22 @@ export default function TopBar(props) {
           >
             {isOpen ? <MenuOpenIcon /> : <MenuIcon />}
           </IconButton>
-          <Drawer anchor={"left"} open={isOpen} onClose={toggleDrawer}>
+          <Drawer
+            sx={{
+              "& .MuiPaper-root": {
+                bgcolor: "background.appbar",
+                backdropFilter: "blur(3px)",
+              },
+              "& .MuiBackdrop-root": {
+                bgcolor: "rgba(0,0,0,0.5)",
+              },
+              //bgcolor: 'rgba(0,0,0,0.5)'
+              //backdropFilter: 'blur(1px)'
+            }}
+            anchor={"left"}
+            open={isOpen}
+            onClose={toggleDrawer}
+          >
             <DrawItems />
           </Drawer>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>

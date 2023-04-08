@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 export const ModalAtom = atom({
   key: "ModalAtom",
-  default: "",
+  default: false,
 });
 
 export const ModalTitleAtom = atom({
